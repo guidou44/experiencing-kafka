@@ -156,11 +156,6 @@
     <!-- Spring Framework-->
 
     <dependency>
-      <artifactId>spring-boot-starter-thymeleaf</artifactId>
-      <groupId>org.springframework.boot</groupId>
-    </dependency>
-
-    <dependency>
       <artifactId>spring-boot-starter-web</artifactId>
       <groupId>org.springframework.boot</groupId>
     </dependency>
@@ -172,11 +167,6 @@
       <scope>runtime</scope>
     </dependency>
 
-    <dependency>
-      <artifactId>spring-core</artifactId>
-      <groupId>org.springframework</groupId>
-    </dependency>
-	
     <!-- Spring Test framework-->
     <dependency>
       <artifactId>spring-boot-starter-test</artifactId>
