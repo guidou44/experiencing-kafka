@@ -5,11 +5,27 @@ services:
     ports:
       - "2181:2181"
   kafka:
-    build: ./kafka_deploy
+    build: .
     ports:
-      - "9092"
+      - "9092:9092"
+    hostname: kafka
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: 0.0.0.0
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_PORT: 9092
+      HOSTNAME_COMMAND: "route -n | awk '/UG[ \t]/{print $$2}'"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+  spring-backend:
+    build: ./backend/.
+    container_name: spring-backend
+    ports:
+      - "8080:8080"
+    links:
+      - kafka
+  angularclient:
+    build: frontend/angularclient/.
+    container_name: angularclient
+    ports:
+      - "4200:80"
+    links:
+      - spring-backend
