@@ -13,3 +13,15 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+  spring-backend:
+    build: .
+    container_name: spring-backend
+    ports:
+      - "8080:8080"
+  angularclient:
+    build: frontend/angularclient/.
+    container_name: angularclient
+    ports:
+      - "4200:80"
+    links:
+      - spring-backend
