@@ -86,7 +86,7 @@
             <configuration>
               <classifier>spring-boot</classifier>
               <mainClass>
-                com.algorithmpresenter.AlgorithmPresenterApplication
+                com.kafkatester.MainApplication
               </mainClass>
             </configuration>
             <goals>
@@ -137,17 +137,16 @@
         <groupId>org.jacoco</groupId>
         <version>${jacoco-maven.version}</version>
       </plugin>
+      <!--
+        <plugin>
 
-      <plugin>
-        <!-- avoid third parties dependencies duplication
-            warnings -->
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
           <forceCreation>true</forceCreation>
         </configuration>
         <groupId>org.apache.maven.plugins</groupId>
         <version>${maven-jar.version}</version>
-      </plugin>
+      </plugin>-->
 	 </plugins>
 	</build>
 	
