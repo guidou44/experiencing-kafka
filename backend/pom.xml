@@ -13,6 +13,13 @@
     <relativePath/>
     <version>2.2.4.RELEASE</version> <!-- lookup parent from repository -->
   </parent>
+
+  <repositories>
+    <repository>
+      <id>confluent</id>
+      <url>http://packages.confluent.io/maven/</url>
+    </repository>
+  </repositories>
   
   <properties>
 
@@ -137,16 +144,6 @@
         <groupId>org.jacoco</groupId>
         <version>${jacoco-maven.version}</version>
       </plugin>
-      <!--
-        <plugin>
-
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <forceCreation>true</forceCreation>
-        </configuration>
-        <groupId>org.apache.maven.plugins</groupId>
-        <version>${maven-jar.version}</version>
-      </plugin>-->
 	 </plugins>
 	</build>
 	
@@ -201,20 +198,23 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- JQuery-->
-    <dependency>
-      <artifactId>jquery</artifactId>
-      <groupId>org.webjars</groupId>
-      <version>${jquery-verison}</version>
-    </dependency>
+     <!-- Bootstrap-->
+     <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
+     <dependency>
+       <groupId>org.apache.kafka</groupId>
+       <artifactId>kafka-clients</artifactId>
+       <version>2.7.0</version>
+     </dependency>
 
-    <!-- Bootstrap-->
-    <dependency>
-      <artifactId>bootstrap</artifactId>
-      <groupId>org.webjars</groupId>
-      <version>${bootstrap-version}</version>
-    </dependency>
-  </dependencies>
+     <!-- https://mvnrepository.com/artifact/io.confluent/kafka-avro-serializer -->
+     <dependency>
+       <groupId>io.confluent</groupId>
+       <artifactId>kafka-avro-serializer</artifactId>
+       <version>6.0.1</version>
+     </dependency>
+
+
+   </dependencies>
 
   <reporting>
     <plugins>
