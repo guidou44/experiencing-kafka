@@ -32,7 +32,7 @@ class KafkaProducerConfig {
 
     @Bean
     public ProducerFactory<String, TestMessage> producerFactory() {
-        return new DefaultKafkaProducerFactory<>(producerConfigs());
+        return new DefaultKafkaProducerFactory<>(producerConfigs(), new StringSerializer(), new JsonSerializer<>());
     }
 
     @Bean
