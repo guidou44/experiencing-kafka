@@ -10,8 +10,10 @@ import org.springframework.stereotype.Component;
 public abstract class KafkaSender<V> implements MessageSender<V> {
 
     protected final KafkaTemplate<String, TestMessage> kafkaTemplate;
+    protected final TopicRouter router;
 
-    public KafkaSender(KafkaTemplate<String, TestMessage> kafkaTemplate) {
+    public KafkaSender(KafkaTemplate<String, TestMessage> kafkaTemplate, TopicRouter router) {
         this.kafkaTemplate = kafkaTemplate;
+        this.router = router;
     }
 }

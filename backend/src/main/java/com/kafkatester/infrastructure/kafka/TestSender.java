@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component;
 public class TestSender extends KafkaSender<TestMessage> {
 
     @Autowired
-    public TestSender(KafkaTemplate<String, TestMessage> kafkaTemplate) {
-        super(kafkaTemplate);
+    public TestSender(KafkaTemplate<String, TestMessage> kafkaTemplate, TopicRouter router) {
+        super(kafkaTemplate, router);
     }
 
     @Override
     public void sendMessage(TestMessage message) {
-        String topic = TopicRouter.getTopicRouting(message);
+        String topic = router.getTopicRouting(message);
         kafkaTemplate.send(topic, message);
     }
 }

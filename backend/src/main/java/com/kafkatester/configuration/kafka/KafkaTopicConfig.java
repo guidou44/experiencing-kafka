@@ -18,13 +18,6 @@ public class KafkaTopicConfig {
     private String bootstrapServers;
 
     @Bean
-    public KafkaAdmin kafkaAdmin() {
-        Map<String, Object> configs = new HashMap<>();
-        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        return new KafkaAdmin(configs);
-    }
-
-    @Bean
     NewTopic topic1() {
         return TopicBuilder.name(testTopic).build();
     }

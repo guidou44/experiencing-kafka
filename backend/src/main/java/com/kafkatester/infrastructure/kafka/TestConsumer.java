@@ -11,6 +11,6 @@ public class TestConsumer extends KafkaConsumer<TestMessage> {
     @Override
     @KafkaListener(topics = "#{'${spring.kafka.topic-test}'}")
     public void listen(TestMessage message) {
-
+        this.messageQueue.add(message);
     }
 }

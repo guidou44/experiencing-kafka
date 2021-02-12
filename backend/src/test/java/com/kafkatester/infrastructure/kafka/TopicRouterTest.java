@@ -14,10 +14,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(MockitoJUnitRunner.class)
 public class TopicRouterTest {
 
+    TopicRouter router = new TopicRouter();
+
     @Before
     public void setUp() {
-        ReflectionTestUtils.setField(TopicRouter.class, "testTopic", "this_is_fo_test_purpose");
-        TopicRouter.initialize();
+        ReflectionTestUtils.setField(router, "testTopic", "this_is_fo_test_purpose");
     }
 
     @Test
@@ -25,7 +26,7 @@ public class TopicRouterTest {
         TestMessage someMessage = new TestMessage();
         someMessage.Message = "hello";
         someMessage.TimeStamp = new Date();
-        String topic = TopicRouter.getTopicRouting(someMessage);
+        String topic = router.getTopicRouting(someMessage);
 
         assertThat(topic).isNotEmpty();
     }

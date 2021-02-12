@@ -33,7 +33,7 @@ public class PingController {
         return "OK";
     }
 
-    @GetMapping(value = "/consume", produces = "{application/json}")
+    @GetMapping(value = "/consume", produces = "application/json")
     public TestMessage Consume() {
         Optional<TestMessage> messageOpt = consumer.dequeue();
         return messageOpt.orElseGet(TestMessage::new);
