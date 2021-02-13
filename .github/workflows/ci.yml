@@ -21,10 +21,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Check Coding Style
-        working-directory: ./backend
-        run: mvn checkstyle:check
-
   build_Test_CodeCoverage:
     runs-on: ubuntu-latest
     steps:
