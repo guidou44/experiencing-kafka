@@ -1,5 +1,5 @@
 package com.kafkatester.domain.messagebroker;
 
-public interface MessageSender<TValue> {
+public interface MessageProducer<TValue> {
     void sendMessage(TValue message);
 }

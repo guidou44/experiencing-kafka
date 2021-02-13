@@ -1,5 +1,7 @@
 package com.kafkatester.configuration.kafka;
 
+import com.kafkatester.domain.messages.ErrorMessage;
+import com.kafkatester.domain.messages.NetworkScanMessage;
 import com.kafkatester.domain.messages.TestMessage;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -37,14 +39,42 @@ class KafkaConsumerConfig {
         return props;
     }
 
-    ConsumerFactory<String, TestMessage> consumerFactory() {
+    //region test message
+    private ConsumerFactory<String, TestMessage> consumerFactory() {
         return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(), new JsonDeserializer<>(TestMessage.class));
     }
 
     @Bean
-    KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, TestMessage>> kafkaListenerContainerFactory() {
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, TestMessage>> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, TestMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
     }
+    //endregion
+
+    //region error message
+    private ConsumerFactory<String, ErrorMessage> errorMessageConsumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(), new JsonDeserializer<>(ErrorMessage.class));
+    }
+
+    @Bean
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, ErrorMessage>> kafkaListenerErrorMessageContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, ErrorMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(errorMessageConsumerFactory());
+        return factory;
+    }
+    //endregion
+
+    //region network scan message
+    private ConsumerFactory<String, NetworkScanMessage> networkScanConsumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(), new JsonDeserializer<>(NetworkScanMessage.class));
+    }
+
+    @Bean
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, NetworkScanMessage>> kafkaListenerNetworkScanContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, NetworkScanMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(networkScanConsumerFactory());
+        return factory;
+    }
+    //endregion
 }

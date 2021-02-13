@@ -1,6 +1,8 @@
 package com.kafkatester.configuration.kafka;
 
 
+import com.kafkatester.domain.messages.ErrorMessage;
+import com.kafkatester.domain.messages.NetworkScanMessage;
 import com.kafkatester.domain.messages.TestMessage;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -30,6 +32,7 @@ class KafkaProducerConfig {
         return props;
     }
 
+    //region test message
     @Bean
     public ProducerFactory<String, TestMessage> producerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs(), new StringSerializer(), new JsonSerializer<>());
@@ -39,4 +42,29 @@ class KafkaProducerConfig {
     public KafkaTemplate<String, TestMessage> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
+    //endregion
+
+    //region error message
+    @Bean
+    public ProducerFactory<String, ErrorMessage> errorProducerFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs(), new StringSerializer(), new JsonSerializer<>());
+    }
+
+    @Bean
+    public KafkaTemplate<String, ErrorMessage> errorKafkaTemplate() {
+        return new KafkaTemplate<>(errorProducerFactory());
+    }
+    //endregion
+
+    //region network scan message
+    @Bean
+    public ProducerFactory<String, NetworkScanMessage> networkScanProducerFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs(), new StringSerializer(), new JsonSerializer<>());
+    }
+
+    @Bean
+    public KafkaTemplate<String, NetworkScanMessage> networkScanKafkaTemplate() {
+        return new KafkaTemplate<>(networkScanProducerFactory());
+    }
+    //endregion
 }

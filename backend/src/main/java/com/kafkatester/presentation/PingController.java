@@ -1,10 +1,9 @@
 package com.kafkatester.presentation;
 
 import com.kafkatester.domain.messagebroker.MessageListener;
-import com.kafkatester.domain.messagebroker.MessageSender;
+import com.kafkatester.domain.messagebroker.MessageProducer;
 import com.kafkatester.domain.messages.TestMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +15,7 @@ import java.util.Optional;
 @RequestMapping("ping")
 public class PingController {
 
-    @Autowired private MessageSender<TestMessage> producer;
+    @Autowired private MessageProducer<TestMessage> producer;
     @Autowired private MessageListener<TestMessage> consumer;
 
     @GetMapping("/heartbeat")
