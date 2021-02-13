@@ -53,7 +53,7 @@ public class NetworkScanner implements Runnable, DisposableBean {
                 if (reachable) {
                     duration = Duration.between(startTime, Instant.now()).toMillis();
                 }
-                NetworkScanMessage netScan = new NetworkScanMessage(address, duration, reachable);
+                NetworkScanMessage netScan = new NetworkScanMessage(address.getHostAddress(), address.getHostName(), duration, reachable);
                 networkScanProducer.sendMessage(netScan);
                 Thread.sleep(LOOP_SLEEP_MILLIS);
             }

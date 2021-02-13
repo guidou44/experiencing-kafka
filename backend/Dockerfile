@@ -8,5 +8,5 @@ RUN mvn -f pom.xml clean package
 FROM openjdk:8-jdk-alpine
 COPY --from=build /workspace/target/experiencing-kafka-2.2.4.RELEASE-spring-boot.jar backend.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/backend.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar", "/backend.jar"]
 

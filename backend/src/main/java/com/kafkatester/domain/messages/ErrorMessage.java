@@ -9,6 +9,9 @@ public class ErrorMessage {
     public String Message;
     public String StackStrace;
 
+    public ErrorMessage() {
+    }
+
     public ErrorMessage(Exception ex) {
         this.ExceptionType = ex.getClass().getCanonicalName();
         this.Message = ex.getMessage();
