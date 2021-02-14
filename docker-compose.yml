@@ -15,3 +15,10 @@ services:
       HOSTNAME_COMMAND: "route -n | awk '/UG[ \t]/{print $$2}'"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+  spring-backend:
+    build: ./backend/.
+    container_name: spring-backend
+    ports:
+      - "8080:8080"
+    links:
+      - kafka
