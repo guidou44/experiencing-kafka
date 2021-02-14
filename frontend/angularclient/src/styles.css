@@ -1,1 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+#app-body {
+  background-size: cover;
+  background-position: center center;
+  height: 100%;
+  position: relative;
+}
+
+.main-text {
+  font-family: "Lucida Console", serif;
+}
+
+.network-scan {
+  font-weight: bold;
+  color: blue;
+}

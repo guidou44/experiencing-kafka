@@ -8,15 +8,15 @@ import { PingService } from '../service/ping.service';
 })
 export class PingComponent implements OnInit {
 
-  ping_message: string;
+  pingMessage: string;
 
   constructor(private pingService: PingService) {
-    this.ping_message = 'no server message';
+    this.pingMessage = 'no server message';
   }
 
   ngOnInit(): void {
     this.pingService.ping().subscribe(data => {
-      this.ping_message = data;
+      this.pingMessage = data;
     });
   }
 }

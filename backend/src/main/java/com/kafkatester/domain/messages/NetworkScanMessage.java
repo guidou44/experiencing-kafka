@@ -1,22 +1,20 @@
 package com.kafkatester.domain.messages;
 
-import java.net.InetAddress;
-
 public class NetworkScanMessage {
 
-    public int PartitionId;
-    public long PingTimeMilli;
-    public String IpAddress;
-    public String HostName;
-    public boolean Reachable;
+    public int partitionId;
+    public long pingTimeMilli;
+    public String ipAddress;
+    public String hostName;
+    public boolean reachable;
 
     public NetworkScanMessage() {
     }
 
     public NetworkScanMessage(String ipAddress, String hostName, long pingTimeMilli, boolean reachable) {
-        this.PingTimeMilli = pingTimeMilli;
-        this.IpAddress = ipAddress;
-        this.HostName = hostName;
-        this.Reachable = reachable;
+        this.pingTimeMilli = pingTimeMilli;
+        this.ipAddress = ipAddress;
+        this.hostName = hostName;
+        this.reachable = reachable;
     }
 }

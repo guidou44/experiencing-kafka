@@ -1,0 +1,30 @@
+<div class="card bg-dark my-5 mx-auto">
+  <div class="card-body">
+    <ul>
+      <li *ngFor="let scan of networkScans">
+        <div class="card bg-secondary my-5 mx-auto">
+          <div class="card-body">
+            <div class="container">
+              <div class="row">
+                <div class="col-xs-3">
+                  <p class="network-scan">{{scan.ipAddress}}</p>
+                </div>
+                <div class="col-xs-3">
+                  <p class="network-scan">{{scan.pingTime}}</p>
+                </div>
+                <div class="col-xs-3">
+                  <p class="network-scan">{{scan.partitionId}}</p>
+                </div>
+                <div class="col-xs-3">
+                  <p class="network-scan">{{scan.reachable}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+
+  </div>
+</div>

@@ -1,18 +1,22 @@
-<div class="container">
+<div id="app-container" class="container">
   <div class="row">
     <div class="col-md-12">
-      <div class="card bg-dark my-5">
-        <div class="card-body">
-          <h2 class="card-title text-center text-white py-3">{{ title }}</h2>
-
-          <ul class="text-center list-inline py-3">
-            <li class="list-inline-item">
-              <a routerLink="/ping" class="btn btn-info">ping backend</a>
-            </li>
-          </ul>
-
+      <h2 id="main-title" class="card-title text-center text-white py-3 main-text">{{ title }}</h2>
+      <div class="row">
+        <div class="col-sm-6">
+          <app-successful-scan-list></app-successful-scan-list>
+        </div>
+        <div class="col-sm-6">
+         <app-scan-list></app-scan-list>
         </div>
       </div>
+
+      <div class="row">
+        <div class="col-sm-6 mx-auto">
+          <app-error-scan-list></app-error-scan-list>
+        </div>
+      </div>
+
       <router-outlet></router-outlet>
     </div>
   </div>

@@ -19,6 +19,7 @@ public class NetworkScanConsumer extends KafkaConsumer<NetworkScanMessage> {
         if (messageQueue.size() >= MAX_QUEUE_SIZE) {
             messageQueue.poll();
         }
+        message.partitionId = partition;
         this.messageQueue.add(message);
     }
 }
