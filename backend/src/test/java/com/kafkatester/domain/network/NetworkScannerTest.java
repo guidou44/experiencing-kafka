@@ -26,7 +26,7 @@ public class NetworkScannerTest {
     @Before
     public void setup() {
         scanner = new NetworkScanner(errorProducerMock, networkScanProducerMock);
-        ReflectionTestUtils.setField(scanner, "hostIp", "127.0.0.1");
+        //ReflectionTestUtils.setField(scanner, "hostIp", "127.0.0.1");
     }
 
     @Test
