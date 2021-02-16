@@ -20,7 +20,6 @@ export class ErrorScanListComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log('starting loop');
     interval(5000)
       .pipe(
         startWith(0),

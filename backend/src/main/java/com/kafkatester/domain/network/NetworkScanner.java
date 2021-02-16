@@ -24,7 +24,6 @@ public class NetworkScanner implements Runnable, DisposableBean {
     private static final int LOOP_SLEEP_MILLIS = 3000;
     private static final int PING_TIMEOUT = 3000;
 
-    @Value("${host.ip.address}") private String hostIp;
     private final MessageProducer<ErrorMessage> errorProducer;
     private final MessageProducer<NetworkScanMessage> networkScanProducer;
 
@@ -45,6 +44,7 @@ public class NetworkScanner implements Runnable, DisposableBean {
             while (continueScan.get()) {
                 try {
                     int randomDeviceAddress = ThreadLocalRandom.current().nextInt(MIN_DEVICE_ADDRESS, MAX_DEVICE_ADDRESS);
+                    String hostIp = InetAddress.getLocalHost().getHostAddress();
                     String[] addressComponents = hostIp.split("\\.");
                     addressComponents[addressComponents.length - 1] = Integer.toString(randomDeviceAddress);
                     InetAddress address = InetAddress.getByName(String.join(".", addressComponents));

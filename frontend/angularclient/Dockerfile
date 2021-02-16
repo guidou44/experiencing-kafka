@@ -3,7 +3,7 @@ WORKDIR /usr/src/app
 COPY package.json ./
 RUN npm install
 COPY . ./
-RUN npm run build --prod
+RUN npm run build
 
 FROM nginx:1.17.7-alpine
 COPY default.conf /etc/nginx/conf.d/default.conf

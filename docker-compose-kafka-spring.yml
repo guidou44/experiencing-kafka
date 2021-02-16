@@ -22,10 +22,3 @@ services:
       - "8080:8080"
     links:
       - kafka
-  angularclient:
-    build: frontend/angularclient/.
-    container_name: angularclient
-    ports:
-      - "4200:80"
-    links:
-      - spring-backend
