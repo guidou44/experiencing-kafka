@@ -5,19 +5,22 @@ import java.io.StringWriter;
 
 public class ErrorMessage {
 
-    public String ExceptionType;
-    public String Message;
-    public String StackStrace;
+    public String exceptionType;
+    public String message;
+    public String stackStrace;
+    public String ipAddress;
 
     public ErrorMessage() {
     }
 
-    public ErrorMessage(Exception ex) {
-        this.ExceptionType = ex.getClass().getCanonicalName();
-        this.Message = ex.getMessage();
+    public ErrorMessage(Exception ex, String ipAddress) {
+        String[] namePart = ex.getClass().getName().split("\\.");
+        this.exceptionType = namePart[namePart.length - 1];
+        this.message = ex.getMessage();
+        this.ipAddress = ipAddress;
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         ex.printStackTrace(pw);
-        this.StackStrace = sw.toString();
+        this.stackStrace = sw.toString();
     }
 }

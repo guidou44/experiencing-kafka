@@ -11,9 +11,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class NetworkScanConsumer extends KafkaConsumer<NetworkScanMessage> {
 
+    private static final int MAX_QUEUE_SIZE = 100;
+
     @Override
     @KafkaListener(topics = "#{'${spring.kafka.topic-network}'}")
     public void listen(@Payload NetworkScanMessage message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition) {
+        if (messageQueue.size() >= MAX_QUEUE_SIZE) {
+            messageQueue.poll();
+        }
+        message.partitionId = partition;
         this.messageQueue.add(message);
     }
 }

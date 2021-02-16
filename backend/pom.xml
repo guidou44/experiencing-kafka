@@ -161,12 +161,6 @@
     <!-- Spring Test framework-->
     <dependency>
       <artifactId>spring-boot-starter-test</artifactId>
-      <exclusions>
-        <exclusion>
-          <artifactId>junit-vintage-engine</artifactId>
-          <groupId>org.junit.vintage</groupId>
-        </exclusion>
-      </exclusions>
       <groupId>org.springframework.boot</groupId>
       <scope>test</scope>
     </dependency>

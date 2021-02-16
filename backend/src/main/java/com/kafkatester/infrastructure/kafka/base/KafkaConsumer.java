@@ -1,8 +1,6 @@
 package com.kafkatester.infrastructure.kafka.base;
 
 import com.kafkatester.domain.messagebroker.MessageListener;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.Optional;

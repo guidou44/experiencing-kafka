@@ -3,6 +3,7 @@ package com.kafkatester.domain.network;
 import com.kafkatester.domain.messagebroker.MessageProducer;
 import com.kafkatester.domain.messages.ErrorMessage;
 import com.kafkatester.domain.messages.NetworkScanMessage;
+import com.kafkatester.domain.network.exceptions.VolunteerChaosException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,23 +43,39 @@ public class NetworkScanner implements Runnable, DisposableBean {
 
         try {
             while (continueScan.get()) {
-                int randomDeviceAddress = ThreadLocalRandom.current().nextInt(MIN_DEVICE_ADDRESS, MAX_DEVICE_ADDRESS);
-                String[] addressComponents = hostIp.split("\\.");
-                addressComponents[addressComponents.length - 1] = Integer.toString(randomDeviceAddress);
-                InetAddress address = InetAddress.getByName(String.join(".", addressComponents));
+                try {
+                    int randomDeviceAddress = ThreadLocalRandom.current().nextInt(MIN_DEVICE_ADDRESS, MAX_DEVICE_ADDRESS);
+                    String[] addressComponents = hostIp.split("\\.");
+                    addressComponents[addressComponents.length - 1] = Integer.toString(randomDeviceAddress);
+                    InetAddress address = InetAddress.getByName(String.join(".", addressComponents));
+                    if (randomDeviceAddress % 7 == 0) {
+                        throw new VolunteerChaosException("testing error topic for " + address.getHostAddress(), address.getHostAddress());
+                    }
 
-                long duration = -1;
-                Instant startTime = Instant.now();
-                boolean reachable = address.isReachable(PING_TIMEOUT);
-                if (reachable) {
-                    duration = Duration.between(startTime, Instant.now()).toMillis();
+                    long duration = -1;
+                    if (randomDeviceAddress % 2 == 0) {
+                        Instant startTime = Instant.now();
+                        boolean reachable = true;
+                        duration = Duration.between(startTime, Instant.now()).toMillis();
+                        NetworkScanMessage netScan = new NetworkScanMessage(address.getHostAddress(), address.getHostName(), duration, reachable);
+                        networkScanProducer.sendMessage(netScan);
+                    } else {
+                        Instant startTime = Instant.now();
+                        boolean reachable = address.isReachable(PING_TIMEOUT);
+                        if (reachable) {
+                            duration = Duration.between(startTime, Instant.now()).toMillis();
+                        }
+                        NetworkScanMessage netScan = new NetworkScanMessage(address.getHostAddress(), address.getHostName(), duration, reachable);
+                        networkScanProducer.sendMessage(netScan);
+                    }
+                    Thread.sleep(LOOP_SLEEP_MILLIS);
+                } catch (VolunteerChaosException ex) {
+                    ErrorMessage err = new ErrorMessage(ex, ex.getIpAddress());
+                    errorProducer.sendMessage(err);
                 }
-                NetworkScanMessage netScan = new NetworkScanMessage(address.getHostAddress(), address.getHostName(), duration, reachable);
-                networkScanProducer.sendMessage(netScan);
-                Thread.sleep(LOOP_SLEEP_MILLIS);
             }
         } catch (Exception ex) {
-            ErrorMessage err = new ErrorMessage(ex);
+            ErrorMessage err = new ErrorMessage(ex, "");
             errorProducer.sendMessage(err);
         } finally {
             countDownLatch.countDown();

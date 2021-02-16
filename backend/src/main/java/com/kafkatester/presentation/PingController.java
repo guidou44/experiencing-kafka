@@ -26,8 +26,8 @@ public class PingController {
     @GetMapping("/produce")
     public String Produce() {
         TestMessage message = new TestMessage();
-        message.Message = "YO";
-        message.TimeStamp = new Date();
+        message.message = "YO";
+        message.timeStamp = new Date();
         producer.sendMessage(message);
         return "OK";
     }

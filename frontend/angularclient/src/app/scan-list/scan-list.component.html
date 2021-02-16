@@ -1,0 +1,32 @@
+<h2 class="text-center text-white py-3 main-text sub-title">Scan list</h2>
+<div class="row">
+  <ul class="horizontal-collection mx-auto">
+    <li *ngFor="let scan of networkScans">
+      <div class="card bg-dark align-top">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-xs-12">
+              <p class="network-scan" [ngStyle]="{'color':'#d6d6d6'}">{{scan.ipAddress}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-6">
+              <p class="network-scan">partition : </p>
+            </div>
+            <div class="col-xs-6">
+              <p class="network-scan">{{scan.partitionId}}</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-6">
+              <p class="network-scan" [ngStyle]="{'color': scan.reachable ? 'green' : 'red'}">{{scan.reachable}}</p>
+            </div>
+            <div class="col-xs-6">
+              <p class="network-scan" [ngStyle]="{'color': scan.reachable ? 'green' : 'red', 'margin-left': '5px'}">{{scan.pingTimeMilli}}&nbsp;ms</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

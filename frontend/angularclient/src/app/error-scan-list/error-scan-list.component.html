@@ -1,0 +1,22 @@
+<h2 class="text-center text-white py-3 main-text sub-title">Error scans</h2>
+  <div class="row">
+    <ul class="horizontal-collection mx-auto">
+      <li *ngFor="let currentErrorScan of currentErrorScans">
+        <div class="card bg-dark align-top">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-xs-12 network-scan text-wrap" [ngStyle]="{'color':'red'}">
+                ERROR:&nbsp;{{currentErrorScan.ipAddress}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12 network-scan text-wrap" [ngStyle]="{'color':'red'}">
+                {{currentErrorScan.exceptionType}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
