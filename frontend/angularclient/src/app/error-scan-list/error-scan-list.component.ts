@@ -11,9 +11,12 @@ import {startWith, switchMap} from 'rxjs/operators';
 })
 export class ErrorScanListComponent implements OnInit {
 
-  public currentErrorScan?: ErrorScan = undefined;
+  private maxDisplay = 3;
+  public currentErrorScans: ErrorScan[];
 
-  constructor(private errorScanService: ErrorScanService) {}
+  constructor(private errorScanService: ErrorScanService) {
+    this.currentErrorScans = [];
+  }
 
 
   ngOnInit(): void {
@@ -25,7 +28,10 @@ export class ErrorScanListComponent implements OnInit {
       )
       .subscribe(res => {
         if (res != null) {
-          this.currentErrorScan = res;
+          if (this.currentErrorScans.length >= this.maxDisplay) {
+            this.currentErrorScans.shift();
+          }
+          this.currentErrorScans.push(res);
         }
       });
   }
