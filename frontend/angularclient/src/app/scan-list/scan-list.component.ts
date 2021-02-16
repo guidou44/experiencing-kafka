@@ -11,8 +11,8 @@ import {interval} from 'rxjs/internal/observable/interval';
 })
 export class ScanListComponent implements OnInit {
 
-  maxDisplay = 5;
-  networkScans: NetworkScan[];
+  private maxDisplay = 7;
+  public networkScans: NetworkScan[];
 
   constructor(private networkScanService: NetworkScanService) {
     this.networkScans = [];

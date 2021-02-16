@@ -1,7 +1,8 @@
-<ul>
-  <li *ngFor="let scan of networkScans">
-    <div class="card bg-secondary my-5 mx-auto">
-      <div class="card bg-dark my-5 mx-auto">
+<h2 class="text-center text-white py-3 main-text sub-title">Scan list</h2>
+<div class="row">
+  <ul class="horizontal-collection mx-auto">
+    <li *ngFor="let scan of networkScans">
+      <div class="card bg-dark align-top">
         <div class="card-body">
           <div class="row">
             <div class="col-xs-12">
@@ -10,7 +11,7 @@
           </div>
           <div class="row">
             <div class="col-xs-6">
-              <p class="network-scan">partition :</p>
+              <p class="network-scan">partition : </p>
             </div>
             <div class="col-xs-6">
               <p class="network-scan">{{scan.partitionId}}</p>
@@ -21,11 +22,12 @@
               <p class="network-scan" [ngStyle]="{'color': scan.reachable ? 'green' : 'red'}">{{scan.reachable}}</p>
             </div>
             <div class="col-xs-6">
-              <p class="network-scan" [ngStyle]="{'color': scan.reachable ? 'green' : 'red'}">{{scan.pingTime}} ms</p>
+              <p class="network-scan" [ngStyle]="{'color': scan.reachable ? 'green' : 'red', 'margin-left': '5px'}">{{scan.pingTimeMilli}}&nbsp;ms</p>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </li>
-</ul>
+    </li>
+  </ul>
+
+</div>

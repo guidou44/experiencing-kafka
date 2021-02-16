@@ -9,6 +9,10 @@
   font-family: "Lucida Console", serif;
 }
 
+.sub-title {
+  font-size: large;
+}
+
 .network-scan {
   font-weight: bold;
   color: blue;

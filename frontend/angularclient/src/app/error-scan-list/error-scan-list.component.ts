@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {ErrorScan} from '../model/error-scan';
+import {ErrorScanService} from '../service/error-scan.service';
+import {interval} from 'rxjs/internal/observable/interval';
+import {startWith, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-error-scan-list',
@@ -7,9 +11,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ErrorScanListComponent implements OnInit {
 
-  constructor() { }
+  public currentErrorScan?: ErrorScan = undefined;
+
+  constructor(private errorScanService: ErrorScanService) {}
+
 
   ngOnInit(): void {
+    console.log('starting loop');
+    interval(5000)
+      .pipe(
+        startWith(0),
+        switchMap(() => this.errorScanService.getErrorScans())
+      )
+      .subscribe(res => {
+        if (res != null) {
+          this.currentErrorScan = res;
+        }
+      });
   }
-
 }
