@@ -11,7 +11,7 @@ import {startWith, switchMap} from 'rxjs/operators';
 })
 export class ErrorScanListComponent implements OnInit {
 
-  private maxDisplay = 3;
+  private maxDisplay = 1;
   public currentErrorScans: ErrorScan[];
 
   constructor(private errorScanService: ErrorScanService) {
