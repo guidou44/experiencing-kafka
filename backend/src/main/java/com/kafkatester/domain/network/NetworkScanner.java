@@ -49,7 +49,7 @@ public class NetworkScanner implements Runnable, DisposableBean {
                     addressComponents[addressComponents.length - 1] = Integer.toString(randomDeviceAddress);
                     InetAddress address = InetAddress.getByName(String.join(".", addressComponents));
                     if (randomDeviceAddress % 7 == 0) {
-                        throw new VolunteerChaosException("testing error topic for " + address.getHostAddress());
+                        throw new VolunteerChaosException("testing error topic for " + address.getHostAddress(), address.getHostAddress());
                     }
 
                     long duration = -1;
@@ -70,12 +70,12 @@ public class NetworkScanner implements Runnable, DisposableBean {
                     }
                     Thread.sleep(LOOP_SLEEP_MILLIS);
                 } catch (VolunteerChaosException ex) {
-                    ErrorMessage err = new ErrorMessage(ex);
+                    ErrorMessage err = new ErrorMessage(ex, ex.getIpAddress());
                     errorProducer.sendMessage(err);
                 }
             }
         } catch (Exception ex) {
-            ErrorMessage err = new ErrorMessage(ex);
+            ErrorMessage err = new ErrorMessage(ex, "");
             errorProducer.sendMessage(err);
         } finally {
             countDownLatch.countDown();

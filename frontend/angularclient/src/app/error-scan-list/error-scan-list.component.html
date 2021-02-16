@@ -2,19 +2,16 @@
   <div class="row">
     <ul class="horizontal-collection mx-auto">
       <li *ngFor="let currentErrorScan of currentErrorScans">
-        <div class="card-body">
+        <div class="card bg-dark align-top">
           <div class="card-body">
             <div class="row">
-              <div class="col-xs-12">
-                <p class="network-scan" [ngStyle]="{'color':'red'}">{{currentErrorScan ? currentErrorScan.exceptionType : null}}</p>
+              <div class="col-xs-12 network-scan text-wrap" [ngStyle]="{'color':'red'}">
+                ERROR:&nbsp;{{currentErrorScan.ipAddress}}
               </div>
             </div>
             <div class="row">
-              <div class="col-xs-6">
-                <p class="network-scan" [ngStyle]="{ 'visibility' : currentErrorScan ? 'visible':'hidden', 'color' : 'red'}">message : </p>
-              </div>
-              <div class="col-xs-6">
-                <p class="network-scan" [ngStyle]="{'color':'red'}">{{currentErrorScan ? currentErrorScan.message : null}}</p>
+              <div class="col-xs-12 network-scan text-wrap" [ngStyle]="{'color':'red'}">
+                {{currentErrorScan.exceptionType}}
               </div>
             </div>
           </div>
