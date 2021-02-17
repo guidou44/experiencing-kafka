@@ -18,11 +18,6 @@ public class KafkaTopicConfig {
     private String bootstrapServers;
 
     @Bean
-    NewTopic testTopic() {
-        return TopicBuilder.name(testTopic).build();
-    }
-
-    @Bean
     NewTopic errorTopic() {
         return TopicBuilder.name(errorTopic).build();
     }

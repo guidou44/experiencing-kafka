@@ -21,15 +21,4 @@ public class KafkaTopicConfig {
     NewTopic testTopic() {
         return TopicBuilder.name(testTopic).build();
     }
-
-    @Bean
-    NewTopic errorTopic() {
-        return TopicBuilder.name(errorTopic).build();
-    }
-
-    @Bean
-    NewTopic networkTopic() {
-        return TopicBuilder.name(networkTopic).build();
-    }
-
 }
