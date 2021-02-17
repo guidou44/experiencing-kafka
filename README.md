@@ -30,6 +30,9 @@ Angular frontend. This is a single page applicaiton so nothing fancy and pretty 
 This app uses 3 kafka brokers with one zookeeper instance. There is not a lot of topic so there is no point in using more than one broker. However, the objective of this small project is to test setup and interraction with a kafka cluster.
 The docker-compose side of things for kafka was accomplished thanks to this [conlfuentinc repo](https://github.com/confluentinc/examples/blob/5.3.1-post/cp-all-in-one/docker-compose.yml).
 
+THe broker cluster is also available outside the docker network. The 3 brokers are assigned to
+``localhost:19092``, ``localhost:29092`` and ``localhost:39092``. Just specify one of these as ``bootstrap-servers`` and you should be able to use the [kafka-console-producer](https://kafka.apache.org/quickstart) and [kafka-console-consumer](https://kafka.apache.org/quickstart).
+
 ## Deployment
 Everything runs in a docker container. Just run the following command from project root:
 ``docker-compose up -d``
