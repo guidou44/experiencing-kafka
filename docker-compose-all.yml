@@ -45,3 +45,20 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka3:9092,PLAINTEXT_HOST://localhost:39092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+  spring-backend:
+    build: ./backend/.
+    container_name: spring-backend
+    ports:
+      - "8080:8080"
+    hostname: spring-backend
+    links:
+      - kafka1
+      - kafka2
+      - kafka3
+  angularclient:
+    build: frontend/angularclient/.
+    container_name: angularclient
+    ports:
+      - "4200:80"
+    links:
+      - spring-backend

@@ -1,4 +1,4 @@
-package com.kafkatester.configuration.kafka;
+package com.networkscanner.configuration;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Value;

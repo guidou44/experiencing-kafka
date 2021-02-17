@@ -1,8 +1,8 @@
-package com.kafkatester.configuration.kafka;
+package com.networkscanner.configuration;
 
-import com.kafkatester.domain.messages.ErrorMessage;
-import com.kafkatester.domain.messages.NetworkScanMessage;
-import com.kafkatester.domain.messages.TestMessage;
+import com.networkscanner.domain.messages.ErrorMessage;
+import com.networkscanner.domain.messages.NetworkScanMessage;
+import com.networkscanner.domain.messages.TestMessage;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;

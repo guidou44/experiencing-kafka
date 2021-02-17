@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.4.2</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.networkscanner</groupId>
+    <artifactId>scanner</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <!-- General -->
+        <exec-maven.version>1.2.1</exec-maven.version>
+        <maven-compiler.version>3.8.0</maven-compiler.version>
+        <maven-jar.version>2.4</maven-jar.version>
+        <java.version>1.8</java.version>
+
+        <!-- deployment -->
+        <main-class>com.networkscanner.MainApplication</main-class>
+        <shade-maven.version>3.2.1</shade-maven.version>
+
+        <!-- Make build platform independent -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- logging -->
+        <slf4j-simple.version>1.7.25</slf4j-simple.version>
+
+        <!-- test frameworks -->
+        <junit5.version>5.5.2</junit5.version>
+        <junit-jupiter-params.version>5.4.2</junit-jupiter-params.version>
+        <maven-surefire.version>2.22.1</maven-surefire.version>
+        <mockito-version>2.8.9</mockito-version>
+
+        <!-- code coverage -->
+        <jacoco-maven.version>0.8.5</jacoco-maven.version>
+
+        <!-- spring-boot -->
+        <spring-boot-maven-version>2.2.4.RELEASE</spring-boot-maven-version>
+    </properties>
+
+    <build>
+        <plugins>
+           <!-- <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <version>${maven-compiler.version}</version>
+            </plugin>
+
+            <plugin>
+                <artifactId>exec-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>${main-class}</mainClass>
+                </configuration>
+                <groupId>org.codehaus.mojo</groupId>
+                <version>${exec-maven.version}</version>
+            </plugin>-->
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- test -->
+<!--            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <version>${maven-surefire.version}</version>
+            </plugin>-->
+
+            <!-- code coverage -->
+            <plugin>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <id>generate-code-coverage-report</id>
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
+                <groupId>org.jacoco</groupId>
+                <version>${jacoco-maven.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Mockito Test framework-->
+        <dependency>
+            <artifactId>mockito-core</artifactId>
+            <groupId>org.mockito</groupId>
+            <scope>test</scope>
+            <version>${mockito-version}</version>
+        </dependency>
+
+        <!-- kafka -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.10.2</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <reporting>
+        <plugins>
+            <!-- code coverage -->
+            <!-- select non-aggregate reports -->
+            <plugin>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <groupId>org.jacoco</groupId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
+
+
+</project>
