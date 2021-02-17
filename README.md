@@ -8,10 +8,10 @@ The backend of the application runs a background thread that produce messages to
 Typical message:
 ```json
 NetworkScan {
-    ipAddress : "0.0.0.0",
-    pingTimeMilli : 3,
-    isReachable : true,
-    brokerPartitionId : 0
+    "ipAddress" : "0.0.0.0",
+    "pingTimeMilli" : 3,
+    "isReachable" : true,
+    "brokerPartitionId" : 0
 }
 ```
 These messages go to the ``network-scan`` topic. There is also an ``error-scan`` topic which contains all IP addresses that caused an error. This topic also contains purposely caused exceptions, just to test the system. These exceptions are of type``VolunteerChaosException``.
