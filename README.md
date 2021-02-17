@@ -1,5 +1,6 @@
 # Experiencing-kafka
 ![CI Status](https://github.com/guidou44/experiencing-kafka/workflows/experiencing-kafka%20CI/badge.svg?branch=main)
+
 Small single page application to test interractions and integration with the famous message broker
 [Kafka](https://kafka.apache.org/).
 
@@ -26,8 +27,8 @@ Also, just to have at least some ip addresses that are reachable (in order to te
 Angular frontend. This is a single page applicaiton so nothing fancy and pretty self explanatory.
 
 ## Message broker
-This app uses a single kafka broker with one zookeeper instance. This is not for any production environment so the idea was that a single broker is enough for the use case.
-Kafka setup with docker was accomplished thanks to this [blog](https://medium.com/big-data-engineering/hello-kafka-world-the-complete-guide-to-kafka-with-docker-and-python-f788e2588cfc).
+This app uses 3 kafka brokers with one zookeeper instance. There is not a lot of topic so there is no point in using more than one broker. However, the objective of this small project is to test setup and interraction with a kafka cluster.
+The docker-compose side of things for kafka was accomplished thanks to this [conlfuentinc repo](https://github.com/confluentinc/examples/blob/5.3.1-post/cp-all-in-one/docker-compose.yml).
 
 ## Deployment
 Everything runs in a docker container. Just run the following command from project root:
