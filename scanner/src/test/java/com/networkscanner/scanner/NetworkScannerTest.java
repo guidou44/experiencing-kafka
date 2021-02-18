@@ -3,13 +3,16 @@ package com.networkscanner.scanner;
 import com.messagebroker.domain.MessageProducer;
 import com.messagebroker.domain.messages.ErrorMessage;
 import com.messagebroker.domain.messages.NetworkScanMessage;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class NetworkScannerTest {
 
     @Mock
@@ -19,10 +22,9 @@ public class NetworkScannerTest {
 
     private NetworkScanner scanner;
 
-    @BeforeAll
-    public void setup() {
+    @BeforeEach
+    public void setUp() {
         scanner = new NetworkScanner(errorProducerMock, networkScanProducerMock);
-        //ReflectionTestUtils.setField(scanner, "hostIp", "127.0.0.1");
     }
 
     @Test
