@@ -7,6 +7,8 @@
   <groupId>com.kafkatester</groupId>
   <modelVersion>4.0.0</modelVersion>
   <name>KafkaTester</name>
+  <version>1.0-SNAPSHOT</version>
+
   <parent>
     <artifactId>spring-boot-starter-parent</artifactId>
     <groupId>org.springframework.boot</groupId>
@@ -149,8 +151,13 @@
 	
   <dependencies>
 
-    <!-- Spring Framework-->
+    <dependency>
+      <groupId>com.messagebroker</groupId>
+      <artifactId>messagebroker</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
+    <!-- Spring Framework-->
     <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
     <dependency>
      <groupId>org.springframework.boot</groupId>
@@ -186,12 +193,6 @@
       <groupId>junit</groupId>
       <scope>test</scope>
     </dependency>
-
-     <!-- kafka -->
-     <dependency>
-       <groupId>org.springframework.kafka</groupId>
-       <artifactId>spring-kafka</artifactId>
-     </dependency>
 
    </dependencies>
 

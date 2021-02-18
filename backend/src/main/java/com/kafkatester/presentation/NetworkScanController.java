@@ -1,9 +1,8 @@
 package com.kafkatester.presentation;
 
-import com.kafkatester.domain.messagebroker.MessageListener;
-import com.kafkatester.domain.messages.ErrorMessage;
-import com.kafkatester.domain.messages.NetworkScanMessage;
-import com.kafkatester.presentation.exception.MessageBrokerException;
+import com.messagebroker.domain.MessageListener;
+import com.messagebroker.domain.messages.ErrorMessage;
+import com.messagebroker.domain.messages.NetworkScanMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

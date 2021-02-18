@@ -1,8 +1,8 @@
 package com.kafkatester.presentation;
 
-import com.kafkatester.domain.messagebroker.MessageListener;
-import com.kafkatester.domain.messagebroker.MessageProducer;
-import com.kafkatester.domain.messages.TestMessage;
+import com.messagebroker.domain.MessageListener;
+import com.messagebroker.domain.MessageProducer;
+import com.messagebroker.domain.messages.TestMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
