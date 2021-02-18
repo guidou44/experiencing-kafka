@@ -9,7 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.CountDownLatch;
@@ -31,6 +35,9 @@ public class NetworkScanner implements Runnable, DisposableBean {
     private final AtomicBoolean continueScan = new AtomicBoolean(true);
     private final CountDownLatch countDownLatch = new CountDownLatch(1);
 
+    private long loopCount = 0;
+    private long successfulCount = 0;
+
     @Autowired
     public NetworkScanner(MessageProducer<ErrorMessage> errorProducer, MessageProducer<NetworkScanMessage> networkScanProducer) {
         this.errorProducer = errorProducer;
@@ -41,19 +48,14 @@ public class NetworkScanner implements Runnable, DisposableBean {
     public void run() {
 
         try {
+            String hostIp = getLocalHostIp();
             while (continueScan.get()) {
                 try {
                     int randomDeviceAddress = ThreadLocalRandom.current().nextInt(MIN_DEVICE_ADDRESS, MAX_DEVICE_ADDRESS);
-                    String hostIp = InetAddress.getLocalHost().getHostAddress();
-                    String[] addressComponents = hostIp.split("\\.");
-                    addressComponents[addressComponents.length - 1] = Integer.toString(randomDeviceAddress);
-                    InetAddress address = InetAddress.getByName(String.join(".", addressComponents));
-                    if (randomDeviceAddress % 7 == 0) {
-                        throw new VolunteerChaosException("testing error topic for " + address.getHostAddress(), address.getHostAddress());
-                    }
+                    InetAddress address = getRandomizedAddress(hostIp, randomDeviceAddress);
 
                     long duration = -1;
-                    if (randomDeviceAddress % 2 == 0) {
+                    if (randomDeviceAddress % 2 == 0 && cannotReachAnyHost()) { //fake success
                         Instant startTime = Instant.now();
                         boolean reachable = true;
                         duration = Duration.between(startTime, Instant.now()).toMillis();
@@ -64,10 +66,12 @@ public class NetworkScanner implements Runnable, DisposableBean {
                         boolean reachable = address.isReachable(PING_TIMEOUT);
                         if (reachable) {
                             duration = Duration.between(startTime, Instant.now()).toMillis();
+                            successfulCount++;
                         }
                         NetworkScanMessage netScan = new NetworkScanMessage(address.getHostAddress(), address.getHostName(), duration, reachable);
                         networkScanProducer.sendMessage(netScan);
                     }
+                    loopCount++;
                     Thread.sleep(LOOP_SLEEP_MILLIS);
                 } catch (VolunteerChaosException ex) {
                     ErrorMessage err = new ErrorMessage(ex, ex.getIpAddress());
@@ -75,11 +79,38 @@ public class NetworkScanner implements Runnable, DisposableBean {
                 }
             }
         } catch (Exception ex) {
+            loopCount = -1;
             ErrorMessage err = new ErrorMessage(ex, "");
             errorProducer.sendMessage(err);
         } finally {
             countDownLatch.countDown();
         }
+    }
+
+    private String getLocalHostIp() throws IOException {
+        Socket socket = new Socket();
+        socket.connect(new InetSocketAddress("google.com", 80));
+        String hostSocketIp = socket.getLocalAddress().getHostAddress();
+        socket.close();
+        return hostSocketIp;
+    }
+
+    private InetAddress getRandomizedAddress(String hostIp, int randomDeviceAddress) throws UnknownHostException {
+        String[] addressComponents = hostIp.split("\\.");
+        addressComponents[addressComponents.length - 1] = Integer.toString(randomDeviceAddress);
+        InetAddress address = InetAddress.getByName(String.join(".", addressComponents));
+        if (randomDeviceAddress % 7 == 0) {
+            throw new VolunteerChaosException("testing error topic for " + address.getHostAddress(), address.getHostAddress());
+        }
+        return address;
+    }
+
+    private boolean cannotReachAnyHost() {
+        return loopCount > 30 && successfulCount == 0;
+    }
+
+    public long getLoopCount() {
+        return loopCount;
     }
 
     @Override
