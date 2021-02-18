@@ -2,26 +2,13 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <artifactId>experiencing-kafka</artifactId>
-  <description>single page app to experience kafka</description>
-  <groupId>com.kafkatester</groupId>
+
+  <artifactId>backend</artifactId>
+  <groupId>com.networkscanner</groupId>
   <modelVersion>4.0.0</modelVersion>
-  <name>KafkaTester</name>
+  <description>single page app to experience kafka</description>
+  <name>backend</name>
   <version>1.0-SNAPSHOT</version>
-
-  <parent>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <groupId>org.springframework.boot</groupId>
-    <relativePath/>
-    <version>2.2.4.RELEASE</version> <!-- lookup parent from repository -->
-  </parent>
-
-  <repositories>
-    <repository>
-      <id>confluent</id>
-      <url>http://packages.confluent.io/maven/</url>
-    </repository>
-  </repositories>
   
   <properties>
 
@@ -64,8 +51,19 @@
     <jquery-verison>3.1.0</jquery-verison>
 
   </properties>
-  
-  
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.4.2</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <build>
     <plugins>
       <!-- general -->
@@ -77,15 +75,6 @@
         </configuration>
         <groupId>org.apache.maven.plugins</groupId>
         <version>${maven-compiler.version}</version>
-      </plugin>
-
-      <plugin>
-        <artifactId>exec-maven-plugin</artifactId>
-        <configuration>
-          <mainClass>${main-class}</mainClass>
-        </configuration>
-        <groupId>org.codehaus.mojo</groupId>
-        <version>${exec-maven.version}</version>
       </plugin>
 
       <plugin>
@@ -152,9 +141,9 @@
   <dependencies>
 
     <dependency>
-      <groupId>com.messagebroker</groupId>
+      <groupId>com.networkscanner</groupId>
       <artifactId>messagebroker</artifactId>
-      <version>${project.version}</version>
+      <version>0.0.1-SNAPSHOT</version>
     </dependency>
 
     <!-- Spring Framework-->

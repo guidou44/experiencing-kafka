@@ -1,0 +1,18 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.networkscanner</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <parent-version>0.0.1-SNAPSHOT</parent-version>
+    </properties>
+
+    <modules>
+        <module>messagebroker</module>
+        <module>scanner</module>
+        <module>backend</module>
+    </modules>
+</project>

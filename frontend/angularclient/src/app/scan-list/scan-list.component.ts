@@ -27,6 +27,7 @@ export class ScanListComponent implements OnInit {
       )
       .subscribe(res => {
 
+        console.log('received response');
         if (res != null) {
           console.log('received ' + res.ipAddress);
           if (this.networkScans.length >= this.maxDisplay) {

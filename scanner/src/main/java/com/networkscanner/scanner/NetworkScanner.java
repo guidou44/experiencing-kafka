@@ -22,7 +22,7 @@ public class NetworkScanner implements Runnable, DisposableBean {
     private static final int MIN_DEVICE_ADDRESS = 1;
     private static final int MAX_DEVICE_ADDRESS = 255;
     private static final int LOOP_SLEEP_MILLIS = 3000;
-    private static final int PING_TIMEOUT = 3000;
+    private static final int PING_TIMEOUT = 1000;
 
     private final MessageProducer<ErrorMessage> errorProducer;
     private final MessageProducer<NetworkScanMessage> networkScanProducer;
@@ -45,17 +45,20 @@ public class NetworkScanner implements Runnable, DisposableBean {
 
         try {
             String hostIp = getLocalHostIp();
+            System.out.println("HOST IP : hostIp");
 
             while (continueScan.get()) {
                 try {
                     InetAddress address = randomizeIpAddress(hostIp);
                     long duration = -1;
                     Instant startTime = Instant.now();
+                    System.out.println("TRYING : " + address.getHostAddress());
                     boolean reachable = address.isReachable(PING_TIMEOUT);
                     if (reachable) {
                         duration = Duration.between(startTime, Instant.now()).toMillis();
                     }
                     NetworkScanMessage netScan = new NetworkScanMessage(address.getHostAddress(), address.getHostName(), duration, reachable);
+                    System.out.println("SENDING TO BROKER");
                     networkScanProducer.sendMessage(netScan);
                     Thread.sleep(LOOP_SLEEP_MILLIS);
                 } catch (VolunteerChaosException ex) {
