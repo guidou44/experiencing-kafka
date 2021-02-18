@@ -8,7 +8,8 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.net.InetAddress;
+import java.io.IOException;
+import java.net.*;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.CountDownLatch;
@@ -30,8 +31,11 @@ public class NetworkScanner implements Runnable, DisposableBean {
     private final AtomicBoolean continueScan = new AtomicBoolean(true);
     private final CountDownLatch countDownLatch = new CountDownLatch(1);
 
+    private long loopCount = 0;
+
     @Autowired
-    public NetworkScanner(MessageProducer<ErrorMessage> errorProducer, MessageProducer<NetworkScanMessage> networkScanProducer) {
+    public NetworkScanner(MessageProducer<ErrorMessage> errorProducer,
+                          MessageProducer<NetworkScanMessage> networkScanProducer) {
         this.errorProducer = errorProducer;
         this.networkScanProducer = networkScanProducer;
     }
@@ -40,40 +44,28 @@ public class NetworkScanner implements Runnable, DisposableBean {
     public void run() {
 
         try {
+            String hostIp = getLocalHostIp();
+
             while (continueScan.get()) {
                 try {
-                    int randomDeviceAddress = ThreadLocalRandom.current().nextInt(MIN_DEVICE_ADDRESS, MAX_DEVICE_ADDRESS);
-                    String hostIp = InetAddress.getLocalHost().getHostAddress();
-                    String[] addressComponents = hostIp.split("\\.");
-                    addressComponents[addressComponents.length - 1] = Integer.toString(randomDeviceAddress);
-                    InetAddress address = InetAddress.getByName(String.join(".", addressComponents));
-                    if (randomDeviceAddress % 7 == 0) {
-                        throw new VolunteerChaosException("testing error topic for " + address.getHostAddress(), address.getHostAddress());
-                    }
-
+                    InetAddress address = randomizeIpAddress(hostIp);
                     long duration = -1;
-                    if (randomDeviceAddress % 2 == 0) {
-                        Instant startTime = Instant.now();
-                        boolean reachable = true;
+                    Instant startTime = Instant.now();
+                    boolean reachable = address.isReachable(PING_TIMEOUT);
+                    if (reachable) {
                         duration = Duration.between(startTime, Instant.now()).toMillis();
-                        NetworkScanMessage netScan = new NetworkScanMessage(address.getHostAddress(), address.getHostName(), duration, reachable);
-                        networkScanProducer.sendMessage(netScan);
-                    } else {
-                        Instant startTime = Instant.now();
-                        boolean reachable = address.isReachable(PING_TIMEOUT);
-                        if (reachable) {
-                            duration = Duration.between(startTime, Instant.now()).toMillis();
-                        }
-                        NetworkScanMessage netScan = new NetworkScanMessage(address.getHostAddress(), address.getHostName(), duration, reachable);
-                        networkScanProducer.sendMessage(netScan);
                     }
+                    NetworkScanMessage netScan = new NetworkScanMessage(address.getHostAddress(), address.getHostName(), duration, reachable);
+                    networkScanProducer.sendMessage(netScan);
                     Thread.sleep(LOOP_SLEEP_MILLIS);
                 } catch (VolunteerChaosException ex) {
                     ErrorMessage err = new ErrorMessage(ex, ex.getIpAddress());
                     errorProducer.sendMessage(err);
                 }
+                loopCount++;
             }
         } catch (Exception ex) {
+            loopCount = -1;
             ErrorMessage err = new ErrorMessage(ex, "");
             errorProducer.sendMessage(err);
         } finally {
@@ -86,4 +78,28 @@ public class NetworkScanner implements Runnable, DisposableBean {
         continueScan.set(false);
         countDownLatch.await();
     }
+
+    public long getLoopCount() {
+        return loopCount;
+    }
+
+    private String getLocalHostIp() throws IOException {
+        Socket socket = new Socket();
+        socket.connect(new InetSocketAddress("google.com", 80));
+        String hostSocketIp = socket.getLocalAddress().getHostAddress();
+        socket.close();
+        return hostSocketIp;
+    }
+
+    private InetAddress randomizeIpAddress(String hostIp) throws UnknownHostException {
+        int randomDeviceAddress = ThreadLocalRandom.current().nextInt(MIN_DEVICE_ADDRESS, MAX_DEVICE_ADDRESS);
+        String[] addressComponents = hostIp.split("\\.");
+        addressComponents[addressComponents.length - 1] = Integer.toString(randomDeviceAddress);
+        InetAddress address = InetAddress.getByName(String.join(".", addressComponents));
+        if (randomDeviceAddress % 7 == 0) {
+            throw new VolunteerChaosException("testing error topic for " + address.getHostAddress(), address.getHostAddress());
+        }
+        return address;
+    }
+
 }

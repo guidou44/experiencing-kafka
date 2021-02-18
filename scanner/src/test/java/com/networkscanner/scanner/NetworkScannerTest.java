@@ -31,10 +31,12 @@ public class NetworkScannerTest {
     public void givenAddress_whenPingWithoutError_thenItProduceProperMessageToBroker() throws InterruptedException {
         Thread worker = new Thread(scanner);
         worker.start();
-        Thread.sleep(500);
+        while (scanner.getLoopCount() == 0) {
+            Thread.sleep(50);
+        }
         scanner.destroy();
 
-        verify(networkScanProducerMock).sendMessage(any(NetworkScanMessage.class));
+        verify(networkScanProducerMock, atLeast(1)).sendMessage(any(NetworkScanMessage.class));
     }
 
     @Test
@@ -42,9 +44,9 @@ public class NetworkScannerTest {
         doThrow(new RuntimeException()).when(networkScanProducerMock).sendMessage(any(NetworkScanMessage.class));
         Thread worker = new Thread(scanner);
         worker.start();
-        Thread.sleep(500);
-        scanner.destroy();
-
-        verify(errorProducerMock).sendMessage(any(ErrorMessage.class));
+        while (scanner.getLoopCount() == 0) {
+            Thread.sleep(50);
+        }
+        verify(errorProducerMock, atLeast(1)).sendMessage(any(ErrorMessage.class));
     }
 }
